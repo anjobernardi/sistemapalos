@@ -1,0 +1,93 @@
+<script setup>
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import { Head, useForm } from '@inertiajs/vue3';
+
+import { useToast, POSITION } from "vue-toastification";
+
+const toast = useToast()
+
+const { maintenances } = defineProps(['maintenances']);
+
+const form = useForm('getparams', { maintenances });
+
+const print = async () => {
+    await form.get(route('maintenance_report.report'), {
+        onSuccess: (response) => {
+            console.log('entre aqui');
+
+            toast.success('Copied!', {
+                position: POSITION.BOTTOM_RIGHT,
+            })
+        }
+    });
+};
+
+</script>
+
+<template>
+    <Head title="Relatório" />
+
+    <AuthenticatedLayout>
+        <template #header>
+            <h2 class="text-xl font-semibold leading-tight text-gray-800">Relatório</h2>
+            <!--<iframe :src="route('maintenance_report.report')" />-->
+        </template>
+        <div class="py-12">
+            <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                    <div class="col-span-2 row-span-2">
+                        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                            <table  class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3">
+                                            Ordem de Serviço
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Equipamento
+                                        </th>
+                                            <th scope="col" class="px-6 py-3">
+                                            Identificação
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Ítem
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Data
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="maintenance in maintenances" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            {{ maintenance.service_order_id }}
+                                        </th>
+                                        <td class="px-6 py-4">
+                                            {{ maintenance.equipment_id }}
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            {{ maintenance.identification }}
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            {{ maintenance.part_id }}
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            {{ maintenance.next_maintenance }}
+                                        </td>
+                                    </tr>
+                                </tbody>    
+                            </table>
+                        </div>
+                        <div class="float-right">
+                            <a :href="route('maintenance_report.index')">
+                                <button type="button" @click.prevent="print()" class="inline-flex justify-items-end mr-2 mb-2 px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-yellow-400 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-yellow-500">
+                                    Gerar relatório
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </AuthenticatedLayout>
+</template>

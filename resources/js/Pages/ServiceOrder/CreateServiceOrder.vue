@@ -1,11 +1,14 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, useForm } from '@inertiajs/vue3';
-import { ref } from 'vue';
 import PrimaryButton  from '@/Components/PrimaryButton.vue'
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import DangerButton from '@/Components/DangerButton.vue';
 import Modal from '@/Components/Modal.vue';
+import { Head, useForm } from '@inertiajs/vue3';
+import { ref } from 'vue';
+import { useToast } from "vue-toastification";
+
+const toast = useToast()
 
 const { auth, service_order, maintenances, status_service_orders, equipment_situations, equipments } = 
 defineProps(['auth', 'service_order', 'maintenances', 'status_service_orders', 'equipment_situations', 'equipments']);
@@ -83,7 +86,16 @@ const submitServiceOrder = async() => {
         closed: false,
         created_by_company_id: auth.user.company_id,
         selected: partSelected.value
-    })).post(route('create_service_order.store'), form.service_order)
+    })).post(route('create_service_order.store', form.service_order), {
+        onSuccess: async (response) => {
+            toast.success('Ordem de Serviço gravada com sucesso!')
+        },
+        onError: (errors) => {
+            form.errors = errors;
+            toast.error('Ocorreu um erro')
+        }
+    });
+    
 }
 
 const closeServiceOrder = () => {

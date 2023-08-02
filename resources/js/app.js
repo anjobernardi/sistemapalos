@@ -6,6 +6,8 @@ import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import { vMaska } from "maska";
+import Toast from 'vue-toastification';
+import 'vue-toastification/dist/index.css'
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 
@@ -17,6 +19,7 @@ createInertiaApp({
             .use(plugin)
             .directive("maska", vMaska)
             .use(ZiggyVue, Ziggy)
+            .use(Toast)
             .mount(el);
     },
     progress: {

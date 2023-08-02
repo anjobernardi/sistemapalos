@@ -1,7 +1,10 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, useForm } from '@inertiajs/vue3';
 import PrimaryButton  from '@/Components/PrimaryButton.vue'
+import { Head, useForm } from '@inertiajs/vue3';
+import { useToast } from "vue-toastification";
+
+const toast = useToast()
 
 const { auth, equipment_situation } = defineProps(['auth', 'equipment_situation']);
 
@@ -12,7 +15,15 @@ const submitEquipmentSituation = async() =>{
         id: equipment_situation.id ?? null,
         description: data.equipment_situation.description,
         created_by_company_id: auth.user.company_id,
-    })).post(route('create_equipment_situation.store'), form.equipment_situation)
+    })).post(route('create_equipment_situation.store', form.equipment_situation), {
+        onSuccess: async (response) => {
+            toast.success('Situação do equipamento gravada com sucesso!')
+        },
+        onError: (errors) => {
+            form.errors = errors;
+            toast.error('Ocorreu um erro')
+        }
+    });
 }
 </script>
 

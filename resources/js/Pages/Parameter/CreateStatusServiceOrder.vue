@@ -1,7 +1,10 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, useForm } from '@inertiajs/vue3';
 import PrimaryButton  from '@/Components/PrimaryButton.vue'
+import { Head, useForm } from '@inertiajs/vue3';
+import { useToast } from "vue-toastification";
+
+const toast = useToast() 
 
 const { auth, status_service_order } = defineProps(['auth', 'status_service_order']);
 
@@ -12,7 +15,15 @@ const submitStatusServiceOrder = async() =>{
         id: status_service_order.id ?? null,
         description: data.status_service_order.description,
         created_by_company_id: auth.user.company_id,
-    })).post(route('create_status_service_order.store'), form.status_service_order)
+    })).post(route('create_status_service_order.store', form.status_service_order), {
+        onSuccess: async (response) => {
+            toast.success('Status da OS gravada com sucesso!')
+        },
+        onError: (errors) => {
+            form.errors = errors;
+            toast.error('Ocorreu um erro')
+        }
+    });
 }   
 </script>
 

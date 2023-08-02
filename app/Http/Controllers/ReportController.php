@@ -45,7 +45,7 @@ class ReportController extends Controller
             array_push($fileNames, pathinfo($file)['filename']);
         }
 
-        return response('Success', 200);
+        //return response('Success', 200);
     
         //dd($fileNames);
 

@@ -1,7 +1,10 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, useForm } from '@inertiajs/vue3';
 import PrimaryButton  from '@/Components/PrimaryButton.vue'
+import { Head, useForm } from '@inertiajs/vue3';
+import { useToast } from "vue-toastification";
+
+const toast = useToast()
 
 const { auth, maintenance } = defineProps(["auth", "maintenance"]);
 
@@ -12,7 +15,15 @@ const submitMaintenance = async() =>{
         id: maintenance.id ?? null,
         description: data.maintenance.description,
         created_by_company_id: auth.user.company_id,
-    })).post(route('create_maintenance.store'), form.maintenance)
+    })).post(route('create_maintenance.store', form.maintenance), {
+        onSuccess: async (response) => {
+            toast.success('Tipo de manutenção gravada com sucesso!')
+        },
+        onError: (errors) => {
+            form.errors = errors;
+            toast.error('Ocorreu um erro')
+        }
+    });
 }
 
 </script>

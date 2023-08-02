@@ -1,8 +1,11 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, useForm } from '@inertiajs/vue3';
 import PrimaryButton  from '@/Components/PrimaryButton.vue'
+import { Head, useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
+import { useToast } from "vue-toastification";
+
+const toast = useToast()
 
 const { auth, equipment } = defineProps(['auth', 'equipment']);
 
@@ -23,7 +26,15 @@ const submitEquipment = async() => {
         predictive: data.equipment.predictive,
         active: checked.value,
         created_by_company_id: auth.user.company_id
-    })).post(route('create_equipment.store'), form.equipment)
+    })).post(route('create_equipment.store', form.equipment), {
+        onSuccess: async (response) => {
+            toast.success('Equipamento gravado com sucesso!')
+        },
+        onError: (errors) => {
+            form.errors = errors;
+            toast.error('Ocorreu um erro')
+        }
+    });
 }
 </script>
 

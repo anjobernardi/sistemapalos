@@ -1,8 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
-
-import { useToast, POSITION } from "vue-toastification";
+import { useToast } from "vue-toastification";
 
 const toast = useToast()
 
@@ -12,12 +11,11 @@ const form = useForm('getparams', { maintenances });
 
 const print = async () => {
     await form.get(route('maintenance_report.report'), {
-        onSuccess: (response) => {
-            console.log('entre aqui');
-
-            toast.success('Copied!', {
-                position: POSITION.BOTTOM_RIGHT,
-            })
+        onSuccess: async (response) => {
+            toast.success('Relatório gerado com sucesso!')
+        },
+        onError: (errors) => {
+            toast.error('Ocorreu um erro, verifique os dados e tente novamente.')
         }
     });
 };

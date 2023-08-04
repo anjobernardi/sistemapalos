@@ -27,7 +27,7 @@ class ServiceOrderFactory extends Factory
             'equipment_situation_id' => fake()->randomElement(EquipmentSituation::pluck('id')),
             'equipment_id' => fake()->randomElement(Equipment::pluck('id')),
             'opening_user' => fake()->randomElement(User::pluck('id')),
-            'closing_user' => fake()->randomElement(User::pluck('id')),
+
             'value_labor' => fake()->numberBetween(1, 100),
             'value_parts' => fake()->numberBetween(1, 100),
             'third_part_service' => fake()->numberBetween(1, 100),

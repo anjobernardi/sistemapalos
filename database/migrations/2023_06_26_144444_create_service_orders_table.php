@@ -26,7 +26,8 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->boolean('electrical_team')->nullable();
             $table->boolean('mechanical_team')->nullable();
-            $table->boolean('closed')->default(false); 
+            $table->boolean('closed')->default(false);
+            $table->bigInteger('number_so')->default(0); 
             $table->foreignId('created_by_company_id')->constrained()->on('users');
             $table->timestamps();
         });

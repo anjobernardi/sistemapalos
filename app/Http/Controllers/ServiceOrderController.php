@@ -55,6 +55,9 @@ class ServiceOrderController extends Controller
      */
     public function store(Request $request)
     {
+               
+            $number_so = ServiceOrder::where('created_by_company_id', auth()->user()->company_id)->max('number_so') + 1;
+
             $validated = $request->validate([ 
                 'maintenance_id' => 'required',
                 'status_service_order_id' => 'required',
@@ -65,7 +68,7 @@ class ServiceOrderController extends Controller
             ]);
     
             $orders = [
-                'closing_user' => $request->get('closing_user') ?? null,
+                'closing_user' => null,
                 'value_labor' => $request->get('value_labor') ?? null,
                 'value_parts' => $request->get('value_parts') ?? null,
                 'third_part_service' => $request->get('third_part_service') ?? null,
@@ -84,8 +87,13 @@ class ServiceOrderController extends Controller
                  $service_order->parts()->syncWithPivotValues($request->get('selected'), ['maintenance_date' => Carbon::now()]);
 
             } else {
-                 $service_order = ServiceOrder::create($validated);
-                 $service_order->parts()->syncWithPivotValues($request->get('selected'), ['maintenance_date' => Carbon::now()]);
+
+                $number_so = ['number_so' =>  ServiceOrder::where('created_by_company_id', auth()->user()->company_id)->max('number_so') + 1];
+
+                $validated = array_merge($validated, $number_so);
+
+                $service_order = ServiceOrder::create($validated);
+                $service_order->parts()->syncWithPivotValues($request->get('selected'), ['maintenance_date' => Carbon::now()]);
             }
      
             return redirect(route('service_order.index'));

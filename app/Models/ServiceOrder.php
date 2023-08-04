@@ -28,6 +28,7 @@ class ServiceOrder extends Model
         'mechanical_team',
         'created_by_company_id',
         'closed',
+        'number_so',
     ];
 
     public function equipment(): HasOne

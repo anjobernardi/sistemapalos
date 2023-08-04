@@ -75,7 +75,7 @@ const submitServiceOrder = async() => {
         equipment_situation_id: data.service_order.equipment_situation_id,
         equipment_id: data.service_order.equipment_id,
         opening_user: data.service_order.opening_user ? service_order.open_user.id : auth.user.id,
-        closing_user: auth.user.id,
+        closing_user: data.service_order.closing_user ? service_order.close_user.id : auth.user.id,
         value_labor: data.service_order.value_labor,
         value_parts: data.service_order.value_parts,
         third_part_service: data.service_order.third_part_service,
@@ -143,7 +143,7 @@ const closeSOConfirmation = async (id) => {
                     <section class="bg-white dark:bg-gray-900">
                         <div class="max-w-2xl px-4 py-8 mx-auto lg:py-16">
                             <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">
-                                {{ service_order.id > 0 ? 'Editar Ordem de Serviço' : 'Nova Ordem de serviço' }} - {{ service_order.id }}
+                                {{ service_order.id > 0 ? 'Editar Ordem de Serviço' : 'Nova Ordem de serviço' }} - {{ service_order.number_so }}
                             </h2>
                             <form @submit.prevent="submitServiceOrder">
                                 <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">

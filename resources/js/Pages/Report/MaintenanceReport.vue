@@ -24,9 +24,8 @@ const generate = async () => {
     });
 };
 
-const print = async () => {
+const openModal = () => {
     printReport.value = true;
-    //await form.get(route('maintenance_report.print'))
 };
 
 const closeModal = () => {
@@ -34,11 +33,6 @@ const closeModal = () => {
 
     form.reset();
 };
-
-const download = async (filename) => {
-    await form.get(route('maintenance_report.download', filename));
-};
-
 </script>
 
 <template>
@@ -57,11 +51,9 @@ const download = async (filename) => {
                         Gerar relatório
                     </button>
                 </a>
-                <a :href="route('maintenance_report.index')">
-                    <button type="button" @click.prevent="print()" class="inline-flex justify-items-start mr-2 mb-2 px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-blue-500 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-blue-600">
-                        Imprimir
-                    </button>
-                </a>
+                <button type="button" @click.prevent="openModal()" class="inline-flex justify-items-start mr-2 mb-2 px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-blue-500 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-blue-600">
+                    Imprimir
+                </button>
                 <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                     <div class="col-span-2 row-span-2">
                         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -131,7 +123,7 @@ const download = async (filename) => {
                                 </th>
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     <td class="px-6 py-4 text-right">
-                                        <a href="#" @click.prevent="download(filename.toString())" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Baixar</a>
+                                        <a :href="route('maintenance_report.download', filename)" @close="closeModal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline" target="_blank">Baixar</a>
                                     </td>
                                 </th>
                             </tr>

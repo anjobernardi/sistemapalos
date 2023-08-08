@@ -4,10 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\EquipmentSituation;
 use App\Models\Maintenance;
-use App\Models\ServiceOrder;
 use App\Models\StatusServiceOrder;
-use Database\Factories\EquipmentFactory;
-use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class DashboardController extends Controller

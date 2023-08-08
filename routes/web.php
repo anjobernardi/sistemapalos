@@ -15,14 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/*Route::get('/', function () {
-    return Inertia::render('Dashboard', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-})*/
+Route::get('/', function () {
+    return view('welcome');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/', [\App\Http\Controllers\DashboardController::class, "index"])->name('dashboard.index');
@@ -128,7 +123,6 @@ Route::middleware('auth')->group(function () {
 
             Route::get("/", [\App\Http\Controllers\ReportController::class, "index"])->name("maintenance_report.index");
             Route::get('/generate', [\App\Http\Controllers\ReportController::class, 'generate'])->name('maintenance_report.generate');
-            Route::get('/print', [\App\Http\Controllers\ReportController::class, 'print'])->name('maintenance_report.print');
             Route::get('/download/{maintenance_report}', [\App\Http\Controllers\ReportController::class, 'download'])->name('maintenance_report.download');
 
         }

@@ -8,10 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\File;
-//use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
-use Response;
 
 class ReportController extends Controller
 {
@@ -46,45 +43,11 @@ class ReportController extends Controller
         $html = View('report', ['maintenances' => $maintenances])->render();
         $pdf->loadHTML($html)->output();
         $pdf->save(storage_path('app/reports/'. auth()->user()->name . Carbon::now()->format('dmYhms') . '.pdf'));
-
-        //$directory = storage_path('app/pdf/');
-        //$files = File::allFiles($directory);
-        
-        //$fileNames = [];
-    
-        //foreach($files as $file) {
-        //    array_push($fileNames, pathinfo($file)['filename']);
-        //}
-
-        //return response('Success', 200);
-    
-        //dd($fileNames);
-
-        //$path = storage_path('app/pdf/Andre Bernardi31072023080710.pdf');
-        //return response()->download($path);
-    }
-
-    public function print()
-    {
-        $directory = storage_path('app/pdf/');
-        $files = File::allFiles($directory);
-        
-        $fileNames = [];
-
-        foreach($files as $file) {
-            array_push($fileNames, pathinfo($file)['filename']);
-        }
     }
 
     public function download($maintenance_report)
     {
-        //return response()->download(storage_path('app/public/' . $maintenance_report . '.pdf', $maintenance_report . '.pdf'));
-
-        //return Inertia::render('Report/MaintenanceReport')->download(storage_path('app/reports/' . $maintenance_report . '.pdf'));
-
-        //return Response::download(storage_path('app/public/' . $maintenance_report . '.pdf'));
-
-        return response()->file(public_path($maintenance_report . '.pdf'),[
+        return response()->file(storage_path('app/reports/' . $maintenance_report . '.pdf'),[
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'inline; filename="filename.pdf"',
          ]);

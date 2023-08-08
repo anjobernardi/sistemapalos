@@ -1,9 +1,8 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,11 +25,12 @@ use Inertia\Inertia;
 })*/
 
 Route::middleware('auth')->group(function () {
+    Route::get('/', [\App\Http\Controllers\DashboardController::class, "index"])->name('dashboard.index');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-    Route::get('/', [\App\Http\Controllers\DashboardController::class, "index"])->name('dashboard.index');
+    Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
+    Route::post('/register', [RegisteredUserController::class, 'store']);
 
     Route::group(
         [
@@ -127,7 +127,9 @@ Route::middleware('auth')->group(function () {
         function () {
 
             Route::get("/", [\App\Http\Controllers\ReportController::class, "index"])->name("maintenance_report.index");
-            Route::get('/report', [\App\Http\Controllers\ReportController::class, 'report'])->name('maintenance_report.report');
+            Route::get('/generate', [\App\Http\Controllers\ReportController::class, 'generate'])->name('maintenance_report.generate');
+            Route::get('/print', [\App\Http\Controllers\ReportController::class, 'print'])->name('maintenance_report.print');
+            Route::get('/download/{maintenance_report}', [\App\Http\Controllers\ReportController::class, 'download'])->name('maintenance_report.download');
 
         }
     );

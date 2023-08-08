@@ -26,5 +26,9 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('manage-service-order', function(User $user) {
             return $user->is_admin === 1;
         });
+
+        Gate::define('manage-register', function(User $user) {
+            return $user->is_admin === 1;
+        });        
     }
 }

@@ -36,7 +36,7 @@ class DatabaseSeeder extends Seeder
             'company_id' => 2
         ]);
 
-        \App\Models\User::factory(5)->create();
+        //\App\Models\User::factory(5)->create();
 
         //EMPRESA 1
         \App\Models\Maintenance::factory()->create([
@@ -69,7 +69,8 @@ class DatabaseSeeder extends Seeder
         \App\Models\StatusServiceOrder::factory(10)->create();
         \App\Models\EquipmentSituation::factory(10)->create();
         \App\Models\Equipment::factory(10)->create();
-        \App\Models\Part::factory(20)->create();
+        \App\Models\Part::factory(40)->create();
+        \App\Models\Plan::factory(40)->create();
         \App\Models\ServiceOrder::factory(10)->create();
     }
 }

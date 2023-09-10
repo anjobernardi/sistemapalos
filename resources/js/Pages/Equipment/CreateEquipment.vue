@@ -23,7 +23,6 @@ const submitEquipment = async() => {
         model: data.equipment.model,
         specification: data.equipment.specification,
         location: data.equipment.location,
-        predictive: data.equipment.predictive,
         active: checked.value,
         created_by_company_id: auth.user.company_id
     })).post(route('create_equipment.store', form.equipment), {
@@ -81,15 +80,10 @@ const submitEquipment = async() => {
                                         <input v-model="form.equipment.specification" type="text" name="specification" id="specification" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Especificação" >
                                         <div v-if="form.errors.specification">{{ form.errors.specification }}</div>
                                     </div>
-                                    <div class="w-full">
+                                    <div class="col-span-2 row-span-2">
                                         <label for="location" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Localização</label>
                                         <input v-model="form.equipment.location" type="text" name="location" id="location" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Localização do equipamento" >
                                         <div v-if="form.errors.location">{{ form.errors.location }}</div>
-                                    </div>
-                                    <div class="w-full">
-                                        <label for="predictive" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Preditiva (Meses)</label>
-                                        <input v-model="form.equipment.predictive" type="number" name="predictive" id="predictive" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Tempo da preditiva" required="">
-                                        <div v-if="form.errors.predictive">{{ form.errors.predictive }}</div>
                                     </div>
                                     <div class="flex items-center mb-4">   
                                         <input name="active" type="checkbox" v-model="checked" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">

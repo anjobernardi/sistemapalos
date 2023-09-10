@@ -23,7 +23,6 @@ class EquipmentFactory extends Factory
             'model' => fake()->company(),
             'specification' => fake()->company(),
             'location' => fake()->streetName(),
-            'predictive' => fake()->numberBetween(1, 12),
             'active' => 1,
             'created_by_company_id' => fake()->numberBetween(1, 2)
         ];

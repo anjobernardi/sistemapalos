@@ -18,7 +18,7 @@ const { auth, service_orders } = defineProps(['auth', 'service_orders']);
         </template>
         <div class="py-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                <a :href="route('create_service_order.create')">
+                <a :href="route('create_service_order.create')"> 
                     <PrimaryButton type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Adicionar</PrimaryButton>
                 </a>
                 <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
@@ -85,7 +85,7 @@ const { auth, service_orders } = defineProps(['auth', 'service_orders']);
                                         {{ format(new Date(service_order.created_at), 'dd/MM/yyyy HH:mm:ss', { locale: ptBR }) }}
                                     </th>
                                     <td class="px-6 py-4 text-right">
-                                        <a :href="route('create_service_order.edit', service_order.id)" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Editar/Fechar OS</a>
+                                        <a :href="route('create_service_order.edit', service_order.id)" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Editar/Finalizar</a>
                                     </td>
                                 </tr>
                             </tbody>

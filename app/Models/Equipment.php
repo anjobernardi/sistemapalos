@@ -18,13 +18,12 @@ class Equipment extends Model
         'model',
         'specification',
         'location',
-        'predictive',
         'active',
         'created_by_company_id',
     ];
 
     public function parts(): HasMany
     {
-        return $this->hasMany(Part::class, 'equipment_id', 'id')->where('active', '=', 1);
+        return $this->hasMany(Part::class, 'equipment_id', 'id')->with('plans')->where('active', '=', 1);
     }
 }

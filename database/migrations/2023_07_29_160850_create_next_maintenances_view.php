@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if(Schema::hasTable('next_maintenances_view')) return;
         DB::statement(" CREATE VIEW next_maintenances_view AS
                         SELECT 
                             a.id as 'service_order_id',
@@ -31,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('next_maintenances_view');
+        Schema::dropIfExists("next_maintenances_view");
     }
 };

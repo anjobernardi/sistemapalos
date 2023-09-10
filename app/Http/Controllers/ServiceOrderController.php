@@ -7,6 +7,7 @@ use App\Models\EquipmentSituation;
 use App\Models\Maintenance;
 use App\Models\ServiceOrder;
 use App\Models\StatusServiceOrder;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -19,10 +20,9 @@ class ServiceOrderController extends Controller
      */
     public function index()
     {
-        $service_orders = ServiceOrder::with('equipment', 'equipment_situation', 'status_service_order', 'maintenance', 'open_user', 'close_user')
+        $service_orders = ServiceOrder::with('equipment', 'equipment_situation', 'status_service_order', 'maintenance', 'open_user', 'close_user', 'user')
                                         ->where('closed', false)
                                         ->get();
-
         return Inertia::render('ServiceOrder/ServiceOrder', [ "service_orders" => $service_orders]);
     }
 
@@ -40,13 +40,15 @@ class ServiceOrderController extends Controller
         $status_service_orders = StatusServiceOrder::all();
         $equipment_situations = EquipmentSituation::all();
         $equipments = Equipment::with('parts')->where('active', true)->get();
+        $users = User::all();
 
         return Inertia::render('ServiceOrder/CreateServiceOrder', [
-            'service_order' => [],
+            'service_order' => ['service_order' => new ServiceOrder()],
             'maintenances' => $maintenances,
             'status_service_orders' => $status_service_orders,
-            'equipment_situations' => $equipment_situations,
-            'equipments' => $equipments
+            'equipment_situations' => $equipment_situations, 
+            'equipments' => $equipments,
+            'users' => $users
         ]);
     }
 
@@ -66,7 +68,7 @@ class ServiceOrderController extends Controller
                 'opening_user' => 'required',
                 'created_by_company_id' => 'required'
             ]);
-    
+
             $orders = [
                 'closing_user' => null,
                 'value_labor' => $request->get('value_labor') ?? null,
@@ -76,8 +78,11 @@ class ServiceOrderController extends Controller
                 'description' => $request->get('description') ?? null,
                 'electrical_team' => $request->get('electrical_team') ?? false,
                 'mechanical_team' => $request->get('mechanical_team') ?? false,
+                'started_at' => Carbon::parse(str_replace('/', '-', $request->get('started_at')))->format('Y-m-d h:i') ?? null,
+                'ended_at' => Carbon::parse(str_replace('/', '-', $request->get('ended_at')))->format('Y-m-d h:i') ?? null,
+                'user_id' => $request->get('user_id') ?? null,
             ];
-    
+   
             $validated = array_merge($validated, $orders);
 
             if ($request->get('id'))
@@ -121,13 +126,15 @@ class ServiceOrderController extends Controller
         $status_service_orders = StatusServiceOrder::all();
         $equipment_situations = EquipmentSituation::all();
         $equipments = Equipment::with('parts')->where('active', true)->get();
+        $users = User::all();
 
         return Inertia::render('ServiceOrder/CreateServiceOrder', [
             'service_order' =>  $serviceOrder->loadMissing('equipment', 'open_user', 'close_user', 'parts'), 
             'maintenances' => $maintenances,
             'status_service_orders' => $status_service_orders,
             'equipment_situations' => $equipment_situations,
-            'equipments' => $equipments
+            'equipments' => $equipments,
+            'users' => $users
         ]);
     }
 

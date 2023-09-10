@@ -102,7 +102,19 @@ Route::middleware('auth')->group(function () {
         function () {
             
             Route::post("/", [\App\Http\Controllers\PartController::class, "store"])->name("part.store");
+            Route::get("/{part}", [\App\Http\Controllers\PartController::class, "edit"])->name("part.edit");
             Route::delete("/{part}", [\App\Http\Controllers\PartController::class, "destroy"])->name("part.destroy");
+        }
+    );
+
+    Route::group(
+        [
+            "prefix" => "plan",
+        ],
+        function () {
+            
+            Route::post("/", [\App\Http\Controllers\PlanController::class, "store"])->name("plan.store");
+            Route::delete("/{plan}", [\App\Http\Controllers\PlanController::class, "destroy"])->name("plan.destroy");
         }
     );
 

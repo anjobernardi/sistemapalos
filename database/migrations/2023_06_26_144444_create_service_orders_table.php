@@ -28,6 +28,9 @@ return new class extends Migration
             $table->boolean('mechanical_team')->nullable();
             $table->boolean('closed')->default(false);
             $table->bigInteger('number_so')->default(0); 
+            $table->dateTime('started_at')->nullable();
+            $table->dateTime('ended_at')->nullable();
+            $table->foreignId('user_id')->nullable();
             $table->foreignId('created_by_company_id')->constrained()->on('users');
             $table->timestamps();
         });

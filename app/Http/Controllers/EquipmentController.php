@@ -33,7 +33,6 @@ class EquipmentController extends Controller
     {
         $validated = $request->validate([ 
             'identification' => 'required',
-            'predictive' => 'required', 
             'created_by_company_id' => 'required'
         ]);
 

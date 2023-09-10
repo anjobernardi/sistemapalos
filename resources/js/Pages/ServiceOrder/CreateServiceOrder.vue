@@ -5,13 +5,16 @@ import SecondaryButton from '@/Components/SecondaryButton.vue';
 import DangerButton from '@/Components/DangerButton.vue';
 import Modal from '@/Components/Modal.vue';
 import { Head, useForm } from '@inertiajs/vue3';
-import { ref } from 'vue';
 import { useToast } from "vue-toastification";
+import { format } from 'date-fns'
+import { ref } from 'vue';
 
-const toast = useToast()
+const toast = useToast() 
 
-const { auth, service_order, maintenances, status_service_orders, equipment_situations, equipments } = 
-defineProps(['auth', 'service_order', 'maintenances', 'status_service_orders', 'equipment_situations', 'equipments']);
+const { auth, service_order, maintenances, status_service_orders, equipment_situations, equipments, users } = 
+defineProps(['auth', 'service_order', 'maintenances', 'status_service_orders', 'equipment_situations', 'equipments', 'users']);
+
+console.log(service_order)
 
 const checked_mechanical = ref(true)
 checked_mechanical.value = service_order.mechanical_team == 1 ? true : false;
@@ -39,6 +42,9 @@ if(service_order.id >= 1){
     partSelected.value = service_order.parts.map( part => part.id )
 }
 
+const started_at = (typeof service_order.started_at !== 'undefined') ? format( new Date(service_order.started_at),  "dd/MM/yyyy HH:mm") : null
+const ended_at = (typeof service_order.ended_at !== 'undefined') ? format( new Date(service_order.ended_at),  "dd/MM/yyyy HH:mm") : null
+
 const form = useForm('getparams', { service_order: {
     'id': service_order.id ?? null,
     'maintenance_id': service_order.maintenance_id ?? null,
@@ -55,6 +61,9 @@ const form = useForm('getparams', { service_order: {
     'electrical_team': service_order.electrical_team ?? null,
     'mechanical_team': service_order.mechanical_team ?? null,
     'closed': service_order.closed ?? false,
+    'started_at':  started_at,
+    'ended_at': ended_at,
+    'user_id': service_order.user_id ?? null,
     'created_by_company_id': service_order.created_by_company_id ?? null,
     'equipment': {
         'identification': service_order.equipment?.identification ?? null,
@@ -84,6 +93,9 @@ const submitServiceOrder = async() => {
         electrical_team: checked_mechanical.value,
         mechanical_team: checked_electrical.value,
         closed: false,
+        started_at: data.service_order.started_at,
+        ended_at: data.service_order.ended_at,
+        user_id: data.service_order.user_id,
         created_by_company_id: auth.user.company_id,
         selected: partSelected.value
     })).post(route('create_service_order.store', form.service_order), {
@@ -253,6 +265,22 @@ const closeSOConfirmation = async (id) => {
                                         <label for="electrical_team" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Time elétrico</label>
                                         <div v-if="form.errors.electrical_team">{{ form.errors.electrical_team }}</div>
                                     </div> 
+                                    <div class="w-full">
+                                        <label for="started_at" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Data/Hora início</label>
+                                        <input v-model="form.service_order.started_at" v-maska data-maska="##/##/#### ##:##" type="datetime" name="started_at" id="started_at" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Data/Hora inicio">
+                                        <div v-if="form.errors.started_at">{{ form.errors.started_at }}</div>
+                                    </div>
+                                    <div class="w-full">
+                                        <label for="ended_at" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Data/Hora fim</label>
+                                        <input v-model="form.service_order.ended_at" v-maska data-maska="##/##/#### ##:##" type="datetime" name="ended_at" id="ended_at" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Data/Hora fim">
+                                        <div v-if="form.errors.ended_at">{{ form.errors.ended_at }}</div>
+                                    </div>
+                                    <div>
+                                        <label for="user_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Usuário</label>
+                                        <select v-model="form.service_order.user_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                            <option v-for="user in users" :value="user.id">{{ user.name }}</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="flow-root">
                                     <div class="float-left" >

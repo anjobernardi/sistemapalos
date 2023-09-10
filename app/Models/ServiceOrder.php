@@ -29,6 +29,9 @@ class ServiceOrder extends Model
         'created_by_company_id',
         'closed',
         'number_so',
+        'started_at',
+        'ended_at',
+        'user_id'
     ];
 
     public function equipment(): HasOne
@@ -69,6 +72,11 @@ class ServiceOrder extends Model
     public function partsData(): BelongsToMany
     {
         return $this->belongsToMany(Part::class,);
+    }
+
+    public function user(): HasOne
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
     }
 
 

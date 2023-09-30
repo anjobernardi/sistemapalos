@@ -8,7 +8,7 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     */
+     
     public function up(): void
     {
         if(Schema::hasTable('next_maintenances_view')) return;
@@ -26,7 +26,7 @@ return new class extends Migration
                             inner join part_service_order c on a.id = c.service_order_id 
                         ORDER BY 'service_order_id' asc LIMIT 0,100");
     }
-
+*/
     /**
      * Reverse the migrations.
      */

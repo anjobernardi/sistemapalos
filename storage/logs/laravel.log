@@ -7888,3 +7888,119 @@ Unexpected data found. at /var/www/html/vendor/nesbot/carbon/src/Carbon/Traits/C
 #57 /var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(16): require_once('...')
 #58 {main}
 "} 
+[2023-09-30 10:37:43] local.ERROR: SQLSTATE[42S01]: Base table or view already exists: 1050 Table 'next_maintenances_view' already exists (Connection: mysql, SQL:  CREATE VIEW next_maintenances_view AS
+                        SELECT 
+                            a.id as 'service_order_id',
+                            b.id as 'equipment_id', 
+                            b.identification, 
+                            c.part_id, 
+                            date_add(c.maintenance_date, interval d.period month) as 'next_maintenance'
+                        FROM 
+                            service_orders a
+                            inner join equipment b on a.equipment_id = b.id
+                            inner join parts d on b.id = d.equipment_id
+                            inner join part_service_order c on a.id = c.service_order_id 
+                        ORDER BY 'service_order_id' asc LIMIT 0,100) {"exception":"[object] (Illuminate\\Database\\QueryException(code: 42S01): SQLSTATE[42S01]: Base table or view already exists: 1050 Table 'next_maintenances_view' already exists (Connection: mysql, SQL:  CREATE VIEW next_maintenances_view AS
+                        SELECT 
+                            a.id as 'service_order_id',
+                            b.id as 'equipment_id', 
+                            b.identification, 
+                            c.part_id, 
+                            date_add(c.maintenance_date, interval d.period month) as 'next_maintenance'
+                        FROM 
+                            service_orders a
+                            inner join equipment b on a.equipment_id = b.id
+                            inner join parts d on b.id = d.equipment_id
+                            inner join part_service_order c on a.id = c.service_order_id 
+                        ORDER BY 'service_order_id' asc LIMIT 0,100) at /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php:795)
+[stacktrace]
+#0 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(755): Illuminate\\Database\\Connection->runQueryCallback()
+#1 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(569): Illuminate\\Database\\Connection->run()
+#2 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/DatabaseManager.php(469): Illuminate\\Database\\Connection->statement()
+#3 /var/www/html/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php(353): Illuminate\\Database\\DatabaseManager->__call()
+#4 /var/www/html/database/migrations/2023_07_29_160850_create_next_maintenances_view.php(15): Illuminate\\Support\\Facades\\Facade::__callStatic()
+#5 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(493): Illuminate\\Database\\Migrations\\Migration@anonymous->up()
+#6 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(410): Illuminate\\Database\\Migrations\\Migrator->runMethod()
+#7 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(419): Illuminate\\Database\\Migrations\\Migrator->Illuminate\\Database\\Migrations\\{closure}()
+#8 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(216): Illuminate\\Database\\Migrations\\Migrator->runMigration()
+#9 /var/www/html/vendor/laravel/framework/src/Illuminate/Console/View/Components/Task.php(37): Illuminate\\Database\\Migrations\\Migrator->Illuminate\\Database\\Migrations\\{closure}()
+#10 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(756): Illuminate\\Console\\View\\Components\\Task->render()
+#11 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(216): Illuminate\\Database\\Migrations\\Migrator->write()
+#12 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(181): Illuminate\\Database\\Migrations\\Migrator->runUp()
+#13 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(124): Illuminate\\Database\\Migrations\\Migrator->runPending()
+#14 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/MigrateCommand.php(88): Illuminate\\Database\\Migrations\\Migrator->run()
+#15 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(633): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->Illuminate\\Database\\Console\\Migrations\\{closure}()
+#16 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/MigrateCommand.php(81): Illuminate\\Database\\Migrations\\Migrator->usingConnection()
+#17 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->handle()
+#18 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#19 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(93): Illuminate\\Container\\Util::unwrapIfClosure()
+#20 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod()
+#21 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/Container.php(662): Illuminate\\Container\\BoundMethod::call()
+#22 /var/www/html/vendor/laravel/framework/src/Illuminate/Console/Command.php(208): Illuminate\\Container\\Container->call()
+#23 /var/www/html/vendor/symfony/console/Command/Command.php(326): Illuminate\\Console\\Command->execute()
+#24 /var/www/html/vendor/laravel/framework/src/Illuminate/Console/Command.php(177): Symfony\\Component\\Console\\Command\\Command->run()
+#25 /var/www/html/vendor/laravel/framework/src/Illuminate/Console/Concerns/CallsCommands.php(67): Illuminate\\Console\\Command->run()
+#26 /var/www/html/vendor/laravel/framework/src/Illuminate/Console/Concerns/CallsCommands.php(28): Illuminate\\Console\\Command->runCommand()
+#27 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/FreshCommand.php(53): Illuminate\\Console\\Command->call()
+#28 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Illuminate\\Database\\Console\\Migrations\\FreshCommand->handle()
+#29 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#30 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(93): Illuminate\\Container\\Util::unwrapIfClosure()
+#31 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod()
+#32 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/Container.php(662): Illuminate\\Container\\BoundMethod::call()
+#33 /var/www/html/vendor/laravel/framework/src/Illuminate/Console/Command.php(208): Illuminate\\Container\\Container->call()
+#34 /var/www/html/vendor/symfony/console/Command/Command.php(326): Illuminate\\Console\\Command->execute()
+#35 /var/www/html/vendor/laravel/framework/src/Illuminate/Console/Command.php(177): Symfony\\Component\\Console\\Command\\Command->run()
+#36 /var/www/html/vendor/symfony/console/Application.php(1081): Illuminate\\Console\\Command->run()
+#37 /var/www/html/vendor/symfony/console/Application.php(320): Symfony\\Component\\Console\\Application->doRunCommand()
+#38 /var/www/html/vendor/symfony/console/Application.php(174): Symfony\\Component\\Console\\Application->doRun()
+#39 /var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(200): Symfony\\Component\\Console\\Application->run()
+#40 /var/www/html/artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle()
+#41 {main}
+
+[previous exception] [object] (PDOException(code: 42S01): SQLSTATE[42S01]: Base table or view already exists: 1050 Table 'next_maintenances_view' already exists at /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php:580)
+[stacktrace]
+#0 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(580): PDOStatement->execute()
+#1 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(788): Illuminate\\Database\\Connection->Illuminate\\Database\\{closure}()
+#2 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(755): Illuminate\\Database\\Connection->runQueryCallback()
+#3 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(569): Illuminate\\Database\\Connection->run()
+#4 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/DatabaseManager.php(469): Illuminate\\Database\\Connection->statement()
+#5 /var/www/html/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php(353): Illuminate\\Database\\DatabaseManager->__call()
+#6 /var/www/html/database/migrations/2023_07_29_160850_create_next_maintenances_view.php(15): Illuminate\\Support\\Facades\\Facade::__callStatic()
+#7 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(493): Illuminate\\Database\\Migrations\\Migration@anonymous->up()
+#8 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(410): Illuminate\\Database\\Migrations\\Migrator->runMethod()
+#9 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(419): Illuminate\\Database\\Migrations\\Migrator->Illuminate\\Database\\Migrations\\{closure}()
+#10 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(216): Illuminate\\Database\\Migrations\\Migrator->runMigration()
+#11 /var/www/html/vendor/laravel/framework/src/Illuminate/Console/View/Components/Task.php(37): Illuminate\\Database\\Migrations\\Migrator->Illuminate\\Database\\Migrations\\{closure}()
+#12 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(756): Illuminate\\Console\\View\\Components\\Task->render()
+#13 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(216): Illuminate\\Database\\Migrations\\Migrator->write()
+#14 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(181): Illuminate\\Database\\Migrations\\Migrator->runUp()
+#15 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(124): Illuminate\\Database\\Migrations\\Migrator->runPending()
+#16 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/MigrateCommand.php(88): Illuminate\\Database\\Migrations\\Migrator->run()
+#17 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(633): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->Illuminate\\Database\\Console\\Migrations\\{closure}()
+#18 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/MigrateCommand.php(81): Illuminate\\Database\\Migrations\\Migrator->usingConnection()
+#19 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->handle()
+#20 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#21 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(93): Illuminate\\Container\\Util::unwrapIfClosure()
+#22 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod()
+#23 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/Container.php(662): Illuminate\\Container\\BoundMethod::call()
+#24 /var/www/html/vendor/laravel/framework/src/Illuminate/Console/Command.php(208): Illuminate\\Container\\Container->call()
+#25 /var/www/html/vendor/symfony/console/Command/Command.php(326): Illuminate\\Console\\Command->execute()
+#26 /var/www/html/vendor/laravel/framework/src/Illuminate/Console/Command.php(177): Symfony\\Component\\Console\\Command\\Command->run()
+#27 /var/www/html/vendor/laravel/framework/src/Illuminate/Console/Concerns/CallsCommands.php(67): Illuminate\\Console\\Command->run()
+#28 /var/www/html/vendor/laravel/framework/src/Illuminate/Console/Concerns/CallsCommands.php(28): Illuminate\\Console\\Command->runCommand()
+#29 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/FreshCommand.php(53): Illuminate\\Console\\Command->call()
+#30 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Illuminate\\Database\\Console\\Migrations\\FreshCommand->handle()
+#31 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#32 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(93): Illuminate\\Container\\Util::unwrapIfClosure()
+#33 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod()
+#34 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/Container.php(662): Illuminate\\Container\\BoundMethod::call()
+#35 /var/www/html/vendor/laravel/framework/src/Illuminate/Console/Command.php(208): Illuminate\\Container\\Container->call()
+#36 /var/www/html/vendor/symfony/console/Command/Command.php(326): Illuminate\\Console\\Command->execute()
+#37 /var/www/html/vendor/laravel/framework/src/Illuminate/Console/Command.php(177): Symfony\\Component\\Console\\Command\\Command->run()
+#38 /var/www/html/vendor/symfony/console/Application.php(1081): Illuminate\\Console\\Command->run()
+#39 /var/www/html/vendor/symfony/console/Application.php(320): Symfony\\Component\\Console\\Application->doRunCommand()
+#40 /var/www/html/vendor/symfony/console/Application.php(174): Symfony\\Component\\Console\\Application->doRun()
+#41 /var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(200): Symfony\\Component\\Console\\Application->run()
+#42 /var/www/html/artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle()
+#43 {main}
+"} 

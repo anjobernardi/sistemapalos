@@ -69,6 +69,8 @@ class ServiceOrderController extends Controller
                 'created_by_company_id' => 'required'
             ]);
 
+            //dd($request);
+
             $orders = [
                 'closing_user' => null,
                 'value_labor' => $request->get('value_labor') ?? null,
@@ -78,10 +80,12 @@ class ServiceOrderController extends Controller
                 'description' => $request->get('description') ?? null,
                 'electrical_team' => $request->get('electrical_team') ?? false,
                 'mechanical_team' => $request->get('mechanical_team') ?? false,
-                'started_at' => Carbon::parse(str_replace('/', '-', $request->get('started_at')))->format('Y-m-d h:i') ?? null,
-                'ended_at' => Carbon::parse(str_replace('/', '-', $request->get('ended_at')))->format('Y-m-d h:i') ?? null,
+                'started_at' => $request->get('started_at') ? Carbon::parse(str_replace('/', '-', $request->get('started_at')))->format('Y-m-d h:i') : null,
+                'ended_at' => $request->get('ended_at') ? Carbon::parse(str_replace('/', '-', $request->get('ended_at')))->format('Y-m-d h:i') : null,
                 'user_id' => $request->get('user_id') ?? null,
             ];
+
+            //dd($orders);
    
             $validated = array_merge($validated, $orders);
 

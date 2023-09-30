@@ -1,7 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import PrimaryButton  from '@/Components/PrimaryButton.vue'
 import SecondaryButton from '@/Components/SecondaryButton.vue';
+import PrimaryButton  from '@/Components/PrimaryButton.vue'
 import DangerButton from '@/Components/DangerButton.vue';
 import Modal from '@/Components/Modal.vue';
 import { Head, useForm } from '@inertiajs/vue3';
@@ -13,8 +13,6 @@ const toast = useToast()
 
 const { auth, service_order, maintenances, status_service_orders, equipment_situations, equipments, users } = 
 defineProps(['auth', 'service_order', 'maintenances', 'status_service_orders', 'equipment_situations', 'equipments', 'users']);
-
-console.log(service_order)
 
 const checked_mechanical = ref(true)
 checked_mechanical.value = service_order.mechanical_team == 1 ? true : false;
@@ -42,8 +40,8 @@ if(service_order.id >= 1){
     partSelected.value = service_order.parts.map( part => part.id )
 }
 
-const started_at = (typeof service_order.started_at !== 'undefined') ? format( new Date(service_order.started_at),  "dd/MM/yyyy HH:mm") : null
-const ended_at = (typeof service_order.ended_at !== 'undefined') ? format( new Date(service_order.ended_at),  "dd/MM/yyyy HH:mm") : null
+const started_at = (typeof service_order.started_at !== 'undefined' && service_order.started_at !== null) ? format( new Date(service_order.started_at),  "dd/MM/yyyy HH:mm") : null
+const ended_at = (typeof service_order.ended_at !== 'undefined' && service_order.ended_at !== null ) ? format( new Date(service_order.ended_at),  "dd/MM/yyyy HH:mm") : null
 
 const form = useForm('getparams', { service_order: {
     'id': service_order.id ?? null,
@@ -61,7 +59,7 @@ const form = useForm('getparams', { service_order: {
     'electrical_team': service_order.electrical_team ?? null,
     'mechanical_team': service_order.mechanical_team ?? null,
     'closed': service_order.closed ?? false,
-    'started_at':  started_at,
+    'started_at': started_at,
     'ended_at': ended_at,
     'user_id': service_order.user_id ?? null,
     'created_by_company_id': service_order.created_by_company_id ?? null,
@@ -106,8 +104,7 @@ const submitServiceOrder = async() => {
             form.errors = errors;
             toast.error('Ocorreu um erro')
         }
-    });
-    
+    });   
 }
 
 const closeServiceOrder = () => {

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -28,9 +29,9 @@ Route::middleware('auth')->group(function () {
         return redirect('/dashboard');
     })->name('home');
     */
-    
 
-    Route::get('/', [\App\Http\Controllers\DashboardController::class, "index"])->name('home');
+
+    Route::get('/', [AuthenticatedSessionController::class, "create"])->name('home');
     Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, "index"])->name('dashboard.index');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

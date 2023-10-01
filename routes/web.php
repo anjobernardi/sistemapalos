@@ -28,6 +28,7 @@ Route::middleware('auth')->group(function () {
         return redirect('/dashboard');
     })->name('home');
     */
+    
 
     Route::get('/', [\App\Http\Controllers\DashboardController::class, "index"])->name('home');
     Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, "index"])->name('dashboard.index');
